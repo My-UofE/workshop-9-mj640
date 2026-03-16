@@ -1,0 +1,1 @@
+Post[postID=1, author="Alex Adam", subject="Help with JavaE", message="Hi, could anyone help me I need to learn how to code in java!", date=20528]

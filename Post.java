@@ -34,4 +34,43 @@ public class Post implements Serializable {
         return result;
     }
 
+    public String toFormattedString() {
+        LocalDate postDate = LocalDate.ofEpochDay(this.date);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        String result = "\n------------------  Post " + postID + "  -------------------" + 
+        "\nAuthor: " + author + 
+        "\nDate: " + postDate.format(formatter) + 
+        "\nSubject: " + subject + "\n" + 
+        "----  Message:  -------------------------------\n" +  
+        message + 
+        "\n-----------------------------------------------\n";
+        return result;
+    }
+
+    public void saveAsTextFile(String filename) throws IOException {
+        BufferedWriter out = new BufferedWriter(new FileWriter(filename)); // opens/creates the file
+        out.write(this.toString()); // writes the formatted post string
+        out.close(); // saves the file and closes it
+    }
+
+    // 'getter' methods
+    public int getPostID() {
+        return(postID);
+    }
+
+    public String getAuthor() {
+        return(author);
+    }
+
+    public String getSubject() {
+        return(subject);
+    }
+
+    public String getMessage() {
+        return(message);
+    }
+
+    public int getDate() {
+        return(date);
+    }
 }

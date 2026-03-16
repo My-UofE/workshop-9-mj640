@@ -1,10 +1,20 @@
+import java.io.IOException;
+
 public class TestPostApp {
     public static void main(String[] args) {
 
-    // create a post object
-    Post test = new Post("Alex Adam", "Help with JavaE", "Hi, could anyone help me I need to learn how to code in java!");
-    
-    // print the post
-    System.out.println(test.toString());
+        // create a post object
+        Post test = new Post("Alex Adam", "Help with JavaE", "Hi, could anyone help me I need to learn how to code in java!");
+        
+        // print the post
+        System.out.println(test.toString());
+
+        // saving post to a file
+        try {
+            test.saveAsTextFile("mypost.txt");
+        } catch (IOException ex) {
+            System.out.println("File not saved.");
+            ex.printStackTrace(); // prints detailed debugging information about the error
+        }
     }
 }
