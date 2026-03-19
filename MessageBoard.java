@@ -2,9 +2,10 @@ import java.util.*;
 import java.time.LocalDate;
 import java.io.*;
 import java.time.format.DateTimeFormatter;
+import Exceptions.IDInvalidException;
 
 
-public class MessageBoard implements Serializable {
+public class MessageBoard implements MessageBoardInterface {
     private List<Post> posts;
     private String boardName;
 
@@ -13,27 +14,36 @@ public class MessageBoard implements Serializable {
         this.posts = new ArrayList<>();
     }
 
+    public String getBoardName() {
+        return boardName;
+    }
+
     public int[] getPostIDs() {
         int[] ids = new int[posts.size()];
-
         for (int i = 0; i < posts.size(); i++) {
-            ids[i] = posts.get(i).getPostIDs;
+            ids[i] = posts.get(i).getPostID();
         }
-
         return ids;
+    }
+
+    public int getPostIndex(int postID) throws IDInvalidException {
+        for (int i = 0; i < posts.size(); i++) {
+            if (posts.get(i).getPostID() == postID) {
+                return i;
+            }
+        }
+        throw new IDInvalidException("Invalid post ID.");
     }
 
     public int addPost(String author, String subject, String message) throws IllegalArgumentException {
         if (author == null || author.isEmpty()
             || subject == null || subject.isEmpty()
-            || message == null || message.isEmpty) {
-                throw new IllegalArgumentException("Author, subject, and message must not be empty.")
-            }
-        
+            || message == null || message.isEmpty()) {
+                throw new IllegalArgumentException("Author, subject, and message must not be empty.");
+        }
         Post newPost = new Post(author, subject, message);
         posts.add(newPost);
-        
-        return newPost.getPostID;
+        return newPost.getPostID();
     }
 
     public void deletePost(int postID) throws IDInvalidException {
@@ -49,7 +59,7 @@ public class MessageBoard implements Serializable {
 
         // checks if the post was found
         if (postToDelete == null) {
-            throw new IDInvalidException("Post " + postID + " could not be found.")
+            throw new IDInvalidException("Post " + postID + " could not be found.");
         }
 
         // if post to be deleted is found
@@ -86,7 +96,7 @@ public class MessageBoard implements Serializable {
         // search through posts
         for (Post p : posts) {
             if (p.getDate() >= startDate && p.getDate() <= endDate) {
-                filteredPosts.add(p)
+                filteredPosts.add(p);
             }
         }
 
@@ -106,7 +116,7 @@ public class MessageBoard implements Serializable {
 
         // finds the post using the postID argument
         for (Post p : posts) {
-            if (p.getPostID == postID) {
+            if (p.getPostID() == postID) {
                 post = p;
                 break;
             }
@@ -114,12 +124,11 @@ public class MessageBoard implements Serializable {
 
         // checks if the post was found
         if (post == null) {
-            throw new IDInvalidException("Post " + postID + " does not exist.")
+            throw new IDInvalidException("Post " + postID + " does not exist.");
         }
 
         // gets formatted post
-        String formattedPost = post.toFormattedString;
-        
+        String formattedPost = post.toFormattedString();
         // returns the formatted post
         return formattedPost;
     }
@@ -154,7 +163,7 @@ public class MessageBoard implements Serializable {
 
         // finds the post using the postID argument
         for (Post p : posts) {
-            if (p.getPostID == postID) {
+            if (p.getPostID() == postID) {
                 postToSave = p;
                 break;
             }
@@ -162,7 +171,7 @@ public class MessageBoard implements Serializable {
 
         // checks if the post was found
         if (postToSave == null) {
-            throw new IDInvalidException("Post " + postID + " could not be found.")
+            throw new IDInvalidException("Post " + postID + " could not be found.");
         }
     }
 }
